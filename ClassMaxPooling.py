@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 class MaxPooling:
     '''Class for calculating maximum in each window of size_h x size_v moving accross a rectangular list of numbers
-    in steps steps._h x spteps._v. Values which cannot make up a window are not considered'''
+    in steps steps._h x spteps._v. Values which do not fit in a window are not considered'''
     
     def __init__(self, step=(2, 2), size=(2,2)):
         self.__step_h, self.__step_v = step
@@ -25,6 +25,3 @@ class MaxPooling:
                     res.append(max([max(matrix[k][j : j + self.__size_h]) for k in range(i, i+self.__size_v)]))
             res_matrix.append(res)
         return [el for el in res_matrix if el]
-
-
-print('END')
