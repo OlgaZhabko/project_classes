@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
+'''the module imitates work of a computer net with one router'''
 class Server:
+    '''imitates work of a server'''
     start_ip = 1
     
     def __init__(self):
@@ -22,6 +24,7 @@ class Server:
         return res
 
 class Router:
+    '''imitates work of a router'''
     def __init__(self):
         self.data_base = {}
         self.buffer = []
@@ -44,6 +47,7 @@ class Router:
         self.buffer.clear()            
 
 class Data:
+    '''imitates some data'''
     def __init__(self, data, ip):
         self.data = data
         self.ip = ip
@@ -73,5 +77,3 @@ for server in router.data_base.keys():
             print(el.ip, '--->>>', el.data)
     else:
         print('Nothing in the buffer')
-        
-print('END')
