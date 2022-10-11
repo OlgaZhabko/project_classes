@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
+'''these two classes imitate the popular sapper game'''
 from random import randint
 
 class Cell:
