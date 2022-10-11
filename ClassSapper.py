@@ -3,6 +3,7 @@
 from random import randint
 
 class Cell:
+    '''Represents a cell of the gamefield'''
     def __init__(self):
         self.__is_mine = False
         self.__number = 0
@@ -39,7 +40,7 @@ class Cell:
         return not self.__is_open
 
 
-class GamePole:
+class GameField:
     game = None
     cells_around = ((1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1))
     
@@ -49,64 +50,51 @@ class GamePole:
         return cls.game
     
     def __del__(self):
-        GamePole.__instance = None
+        GameField.__instance = None
     
     def __init__(self, n, m, total_mines):
         self.__m = m
         self.__n = n
         self.__t_m = total_mines
-        self.__pole_cells = None
+        self.__field_cells = None
     
     @property
-    def pole(self):
-        return self.__pole_cells
+    def field(self):
+        return self.__field_cells
     
     def init_pole(self):
-        self.__pole_cells = tuple(tuple(Cell() for _ in range(self.__m)) for _ in range(self.__n))
+        self.__field_cells = tuple(tuple(Cell() for _ in range(self.__m)) for _ in range(self.__n))
         mines = 0
         while mines < self.__t_m:
             i, j = randint(0, self.__n - 1), randint(0, self.__m - 1)
-            if self.__pole_cells[i][j].is_mine is True:
+            if self.__field_cells[i][j].is_mine is True:
                 continue
-            self.pole[i][j].is_mine = True
+            self.field[i][j].is_mine = True
             mines+=1
         
         for i in range(self.__n):
             for j in range(self.__m):
-                if self.pole[i][j].is_mine is False:
+                if self.field[i][j].is_mine is False:
                     mines = 0
-                    res = sum(self.pole[i+n][j+m].is_mine for n, m in self.cells_around if self.valid_indexes(i+n, j+m))
-                    self.pole[i][j].number = res
+                    res = sum(self.field[i+n][j+m].is_mine for n, m in self.cells_around if self.valid_indexes(i+n, j+m))
+                    self.field[i][j].number = res
                     
     def valid_indexes(self, x, y):
         return 0<=x<self.__n and 0<=y<self.__m
     
     def open_cell(self, i, j):
         try:  
-            self.pole[i][j].is_open = True
+            self.field[i][j].is_open = True
         except:
             raise IndexError('некорректные индексы i, j клетки игрового поля')
 
-    def show_pole(self):
-        for i in range(len(self.pole)):
-            for j in range(len(self.pole[0])):
-                if self.pole[i][j].is_open == False:
+    def show_field(self):
+        for i in range(len(self.field)):
+            for j in range(len(self.field[0])):
+                if self.field[i][j].is_open == False:
                     print('X'.ljust(3), end = '')
-                elif self.pole[i][j].is_mine == False:
-                    print(str(self.pole[i][j].number).ljust(3), end='')
+                elif self.field[i][j].is_mine == False:
+                    print(str(self.field[i][j].number).ljust(3), end='')
                 else:
                     print('*'.ljust(3), end = '')
             print()
-            
-game1 = GamePole(5, 7, 8)
-game1.init_pole()
-    
-for i in range(3):
-    for j in range(4):
-        game1.open_cell(i, j)
-
-game1.show_pole()
-
-
-
-print('END')
