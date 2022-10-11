@@ -62,7 +62,7 @@ class GameField:
     def field(self):
         return self.__field_cells
     
-    def init_pole(self):
+    def init_field(self):
         self.__field_cells = tuple(tuple(Cell() for _ in range(self.__m)) for _ in range(self.__n))
         mines = 0
         while mines < self.__t_m:
