@@ -2,6 +2,7 @@
 # -*- coding:UTF-8 -*-
 
 class ObjList:
+    '''represents an object in a linked list'''
     def __init__(self, data):
         self.__data = data
         self.__next = self.__prev = None
@@ -26,6 +27,7 @@ class ObjList:
 
 
 class LinkedList:
+    '''represents class which controlls a linked list'''
     def __init__(self):
         self.head = None
         self.tail = None
