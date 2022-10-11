@@ -41,6 +41,7 @@ class Cell:
 
 
 class GameField:
+    '''Represents the gamefield consisting of cells, realizes SingleTon pattern'''
     game = None
     cells_around = ((1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1))
     
@@ -63,16 +64,18 @@ class GameField:
         return self.__field_cells
     
     def init_field(self):
+        '''initializes the gamefield, sets the given number of mines random and counts number of mines around for each cell which does not contain a mine'''
+        
         self.__field_cells = tuple(tuple(Cell() for _ in range(self.__m)) for _ in range(self.__n))
         mines = 0
-        while mines < self.__t_m:
+        while mines < self.__t_m:                                         #sets mines randomly in the field
             i, j = randint(0, self.__n - 1), randint(0, self.__m - 1)
             if self.__field_cells[i][j].is_mine is True:
                 continue
             self.field[i][j].is_mine = True
             mines+=1
         
-        for i in range(self.__n):
+        for i in range(self.__n):                                          # counts number of mines around each cell if there is no mine in the cell
             for j in range(self.__m):
                 if self.field[i][j].is_mine is False:
                     mines = 0
@@ -80,15 +83,18 @@ class GameField:
                     self.field[i][j].number = res
                     
     def valid_indexes(self, x, y):
+        '''checks if indexes are correct'''
         return 0<=x<self.__n and 0<=y<self.__m
     
     def open_cell(self, i, j):
+        '''opens a cell'''
         try:  
             self.field[i][j].is_open = True
         except:
             raise IndexError('некорректные индексы i, j клетки игрового поля')
 
     def show_field(self):
+        '''outputs the game field setting X for a closed cell, number of mines or * for open cells'''
         for i in range(len(self.field)):
             for j in range(len(self.field[0])):
                 if self.field[i][j].is_open == False:
